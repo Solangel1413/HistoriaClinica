@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Consulta Médica</title>
+    <!-- Add html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --border-color: #1f2937;
+            --bg-gray: #f3f4f6;
+            --text-dark: #111827;
+            --text-light: #4b5563;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--text-dark);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .form-container {
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .form-header {
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            background-color: var(--bg-gray);
+        }
+        
+        .form-header h1 {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .grid-cols-12 {
+            grid-template-columns: repeat(12, 1fr);
+        }
+        
+        .grid-cols-6 {
+            grid-template-columns: repeat(6, 1fr);
+        }
+        
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .col-span-8 {
+            grid-column: span 8;
+        }
+        
+        .col-span-7 {
+            grid-column: span 7;
+        }
+        
+        .col-span-5 {
+            grid-column: span 5;
+        }
+        
+        .col-span-4 {
+            grid-column: span 4;
+        }
+        
+        .col-span-3 {
+            grid-column: span 3;
+        }
+        
+        .col-span-2 {
+            grid-column: span 2;
+        }
+        
+        .col-span-1 {
+            grid-column: span 1;
+        }
+        
+        .border-b {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .border-r {
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .p-2 {
+            padding: 8px;
+        }
+        
+        .p-1 {
+            padding: 4px;
+        }
+        
+        .mt-1 {
+            margin-top: 4px;
+        }
+        
+        .mt-2 {
+            margin-top: 8px;
+        }
+        
+        .mt-4 {
+            margin-top: 16px;
+        }
+        
+        .gap-1 {
+            gap: 4px;
+        }
+        
+        .gap-2 {
+            gap: 8px;
+        }
+        
+        .gap-4 {
+            gap: 16px;
+        }
+        
+        .text-xs {
+            font-size: 0.75rem;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .justify-end {
+            justify-content: flex-end;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .bg-gray-200 {
+            background-color: var(--bg-gray);
+        }
+        
+        input[type="text"], 
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        textarea, 
+        select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        input[type="text"]:focus, 
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+        
+        .date-input {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .date-input input {
+            width: 40px;
+            text-align: center;
+        }
+        
+        .time-input {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .time-input input {
+            width: 40px;
+            text-align: center;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .small-input {
+            width: 60px !important;
+        }
+        
+        .doctor-signature {
+            border-top: 1px solid var(--border-color);
+            padding-top: 4px;
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: right;
+        }
+        
+        .button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .button:hover {
+            background-color: #4338ca;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .export-button {
+            background-color: var(--success-color);
+        }
+        
+        .export-button:hover {
+            background-color: #059669;
+        }
+        
+        .clear-button {
+            background-color: var(--warning-color);
+        }
+        
+        .clear-button:hover {
+            background-color: #d97706;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="button-group">
+            <button id="toggleForm" class="button">Mostrar Formulario Vacío</button>
+            <button id="exportPDF" class="button export-button">Exportar a PDF</button>
+            <button id="clearFields" class="button clear-button">Limpiar Campos</button>
+        </div>
+        
+        <!-- Form -->
+        <div class="form-container" id="filledForm">
+            <!-- Header -->
+            <div class="form-header">
+                <h1>Atención en Consulta Externa</h1>
+            </div>
+
+            <!-- Patient Info Section -->
+            <div class="grid grid-cols-12 border-b">
+                <div class="col-span-8 border-r">
+                    <div class="grid grid-cols-2 border-b">
+                        <div class="p-2 border-r">
+                            <div class="text-xs font-semibold">Fecha Atención:</div>
+                            <div class="mt-1">
+                                <input type="date" name="fecha_atencion">
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <div class="text-xs font-semibold">Hora de Atención:</div>
+                            <div class="mt-1">
+                                <input type="time" name="hora_atencion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2 border-b">
+                        <div class="text-xs font-semibold">Motivo de consulta:</div>
+                        <div class="mt-1">
+                            <input type="text" name="motivo_consulta" placeholder="Ingrese el motivo de consulta">
+                        </div>
+                    </div>
+                    <div class="p-2 border-b">
+                        <div class="text-xs font-semibold">Signos y Síntomas:</div>
+                        <div class="mt-1">
+                            <input type="text" name="signos_sintomas" placeholder="Ingrese signos y síntomas">
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <div class="text-xs font-semibold">Relato cronológico:</div>
+                        <div class="mt-1">
+                            <textarea name="relato_cronologico" placeholder="Ingrese el relato cronológico"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-4 grid grid-cols-6 text-center">
+                    <div class="col-span-1 p-1 border-r border-b">
+                        <div class="text-xs">Edad</div>
+                        <div>
+                            <input type="number" name="edad" class="small-input text-center">
+                        </div>
+                    </div>
+                    <div class="col-span-1 p-1 border-r border-b">
+                        <div class="text-xs">H</div>
+                        <div>
+                            <input type="number" name="h" class="small-input text-center">
+                        </div>
+                    </div>
+                    <div class="col-span-1 p-1 border-r border-b">
+                        <div class="text-xs">D</div>
+                        <div>
+                            <input type="number" name="d" class="small-input text-center">
+                        </div>
+                    </div>
+                    <div class="col-span-1 p-1 border-r border-b">
+                        <div class="text-xs">M</div>
+                        <div>
+                            <input type="number" name="m" class="small-input text-center">
+                        </div>
+                    </div>
+                    <div class="col-span-2 p-1 border-b">
+                        <div class="text-xs">A</div>
+                        <div>
+                            <input type="number" name="a" class="small-input text-center">
+                        </div>
+                    </div>
+                    <div class="col-span-6 p-1 text-xs">
+                        <div>Tiempo de Enfermedad:</div>
+                        <div>
+                            <input type="text" name="tiempo_enfermedad" placeholder="Tiempo de enfermedad">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Personal Info -->
+            <div class="grid grid-cols-3 border-b">
+                <div class="p-2 border-r">
+                    <div class="text-xs font-semibold">Nombre del Paciente:</div>
+                    <div class="mt-1">
+                        <input type="text" name="nombre_paciente" placeholder="Nombre completo">
+                    </div>
+                </div>
+                <div class="p-2 border-r">
+                    <div class="text-xs font-semibold">DNI:</div>
+                    <div class="mt-1">
+                        <input type="text" name="dni" placeholder="Número de DNI">
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="text-xs font-semibold">Fecha de Nacimiento:</div>
+                    <div class="mt-1">
+                        <input type="date" name="fecha_nacimiento">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vital Signs Section -->
+            <div class="grid grid-cols-3 border-b">
+                <div class="p-2 border-r">
+                    <div class="text-xs font-semibold">Apetito:</div>
+                    <div class="mt-1">
+                        <select name="apetito">
+                            <option value="">Seleccione</option>
+                            <option value="normal">Normal</option>
+                            <option value="aumentado">Aumentado</option>
+                            <option value="disminuido">Disminuido</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2 border-r">
+                    <div class="text-xs font-semibold">Sed:</div>
+                    <div class="mt-1">
+                        <select name="sed">
+                            <option value="">Seleccione</option>
+                            <option value="normal">Normal</option>
+                            <option value="aumentado">Aumentada</option>
+                            <option value="disminuido">Disminuida</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="text-xs font-semibold">Sueño:</div>
+                    <div class="mt-1">
+                        <select name="sueno">
+                            <option value="">Seleccione</option>
+                            <option value="normal">Normal</option>
+                            <option value="aumentado">Aumentado</option>
+                            <option value="disminuido">Disminuido</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 border-b">
+                <div class="col-span-2 border-r">
+                    <div class="text-xs font-semibold p-2 bg-gray-200">FACTOR DE RIESGO IDENTIFICADO:</div>
+                    <div class="grid grid-cols-2 p-2">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="fever" name="factor_riesgo[]" value="fiebre">
+                            <label for="fever" class="text-xs">Fiebre en los últimos 15 días</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="lesion" name="factor_riesgo[]" value="lesion">
+                            <label for="lesion" class="text-xs">Lesión en Genitales</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="cough" name="factor_riesgo[]" value="tos">
+                            <label for="cough" class="text-xs">Tos hace 15 días</label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="secretion" name="factor_riesgo[]" value="secrecion">
+                            <label for="secretion" class="text-xs">Secreción</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="text-xs font-semibold">FUR:</div>
+                    <div class="mt-1">
+                        <input type="date" name="fur">
+                    </div>
+                    <div class="mt-4 flex justify-center gap-4">
+                        <div class="flex items-center gap-1">
+                            <input type="radio" id="viajo_si" name="viajo" value="si">
+                            <label for="viajo_si" class="text-xs">Si</label>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <input type="radio" id="viajo_no" name="viajo" value="no">
+                            <label for="viajo_no" class="text-xs">No</label>
+                        </div>
+                        <div class="text-xs">Viajó en las últimas dos semanas</div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-xs">Lugar:</div>
+                        <input type="text" name="lugar_viaje" placeholder="Lugar de viaje">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical History Section -->
+            <div class="border-b p-2">
+                <div class="text-xs font-semibold">Otros antecedentes de Importancia:</div>
+                <div class="mt-1">
+                    <textarea name="antecedentes" placeholder="Antecedentes importantes"></textarea>
+                </div>
+                <div class="grid grid-cols-6 gap-2 mt-2">
+                    <div class="col-span-1">
+                        <div class="text-xs">T°:</div>
+                        <input type="text" name="temperatura" placeholder="°C">
+                    </div>
+                    <div class="col-span-1">
+                        <div class="text-xs">PA:</div>
+                        <input type="text" name="presion_arterial" placeholder="mmHg">
+                    </div>
+                    <div class="col-span-1">
+                        <div class="text-xs">FC:</div>
+                        <input type="text" name="frecuencia_cardiaca" placeholder="lpm">
+                    </div>
+                    <div class="col-span-1">
+                        <div class="text-xs">FR:</div>
+                        <input type="text" name="frecuencia_respiratoria" placeholder="rpm">
+                    </div>
+                    <div class="col-span-1">
+                        <div class="text-xs">Peso:</div>
+                        <input type="text" name="peso" placeholder="kg">
+                    </div>
+                    <div class="col-span-1">
+                        <div class="text-xs">Talla:</div>
+                        <input type="text" name="talla" placeholder="cm">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-4 mt-2">
+                    <div>
+                        <div class="text-xs">IMC:</div>
+                        <input type="text" name="imc" class="small-input" placeholder="kg/m²">
+                    </div>
+                    <div>
+                        <div class="text-xs">PAB:</div>
+                        <input type="text" name="pab" class="small-input" placeholder="cm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Physical Exam Section -->
+            <div class="border-b">
+                <div class="bg-gray-200 p-1 border-b">
+                    <div class="text-xs font-semibold">EXAMEN FÍSICO</div>
+                </div>
+                <div class="p-2">
+                    <textarea name="examen_fisico" placeholder="Detalles del examen físico"></textarea>
+                </div>
+
+                <!-- Diagnosis Table -->
+                <div class="grid grid-cols-12 border-b border-t">
+                    <div class="col-span-3 p-2 border-r">
+                        <div class="text-xs font-semibold">DIAGNÓSTICO</div>
+                        <div class="mt-2">
+                            <input type="text" name="diagnostico_1" placeholder="Diagnóstico 1">
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" name="diagnostico_2" placeholder="Diagnóstico 2">
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" name="diagnostico_3" placeholder="Diagnóstico 3">
+                        </div>
+                    </div>
+                    <div class="col-span-2 border-r">
+                        <div class="text-center text-xs font-semibold p-1 border-b">Tipo de Dx</div>
+                        <div class="grid grid-cols-3 text-center border-b">
+                            <div class="p-1 border-r text-xs">P</div>
+                            <div class="p-1 border-r text-xs">D</div>
+                            <div class="p-1 text-xs">R</div>
+                        </div>
+                        <div class="grid grid-cols-3 text-center border-b">
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_1" value="P">
+                            </div>
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_1" value="D">
+                            </div>
+                            <div class="p-1">
+                                <input type="radio" name="tipo_dx_1" value="R">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 text-center border-b">
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_2" value="P">
+                            </div>
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_2" value="D">
+                            </div>
+                            <div class="p-1">
+                                <input type="radio" name="tipo_dx_2" value="R">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 text-center">
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_3" value="P">
+                            </div>
+                            <div class="p-1 border-r">
+                                <input type="radio" name="tipo_dx_3" value="D">
+                            </div>
+                            <div class="p-1">
+                                <input type="radio" name="tipo_dx_3" value="R">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 border-r">
+                        <div class="text-center text-xs font-semibold p-1 border-b">CIE-10</div>
+                        <div class="p-1 border-b">
+                            <input type="text" name="cie10_1" placeholder="Código">
+                        </div>
+                        <div class="p-1 border-b">
+                            <input type="text" name="cie10_2" placeholder="Código">
+                        </div>
+                        <div class="p-1">
+                            <input type="text" name="cie10_3" placeholder="Código">
+                        </div>
+                    </div>
+                    <div class="col-span-5">
+                        <div class="text-center text-xs font-semibold p-1 border-b">Tratamiento</div>
+                        <div class="p-2">
+                            <div class="mb-1">
+                                <input type="text" name="tratamiento_1" placeholder="Tratamiento 1">
+                            </div>
+                            <div class="mb-1">
+                                <input type="text" name="tratamiento_2" placeholder="Tratamiento 2">
+                            </div>
+                            <div>
+                                <input type="text" name="tratamiento_3" placeholder="Tratamiento 3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treatment Section -->
+                <div class="grid grid-cols-12">
+                    <div class="col-span-9 p-2 border-r">
+                        <div class="mb-2">
+                            <div class="text-xs font-semibold">Medidas Higiénico - Dietéticas:</div>
+                            <div class="mt-1">
+                                <input type="text" name="medidas_dieteticas" placeholder="Medidas higiénico-dietéticas">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-xs font-semibold">Medidas Preventivas:</div>
+                            <div class="mt-1">
+                                <input type="text" name="medidas_preventivas" placeholder="Medidas preventivas">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-3 grid grid-cols-3 text-center">
+                        <div class="col-span-1 p-1 border-r text-xs">
+                            <div>Vía</div>
+                            <div class="mt-1">
+                                <select name="via">
+                                    <option value="">Seleccione</option>
+                                    <option value="oral">Oral</option>
+                                    <option value="intravenosa">Intravenosa</option>
+                                    <option value="intramuscular">Intramuscular</option>
+                                    <option value="subcutanea">Subcutánea</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-span-1 p-1 border-r text-xs">
+                            <div>Dosis</div>
+                            <div class="mt-1">
+                                <input type="text" name="dosis" placeholder="Dosis">
+                            </div>
+                        </div>
+                        <div class="col-span-1 p-1 text-xs">
+                            <div>Frecuencia</div>
+                            <div class="mt-1">
+                                <input type="text" name="frecuencia" placeholder="Frecuencia">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auxiliary Exams Section -->
+            <div class="border-b p-2">
+                <div class="text-xs font-semibold">Exámenes Auxiliares</div>
+                <div class="mt-1">
+                    <input type="text" name="examenes_auxiliares" placeholder="Exámenes auxiliares">
+                </div>
+            </div>
+
+            <!-- Reference Section -->
+            <div class="grid grid-cols-12 border-b">
+                <div class="col-span-5 p-2 border-r">
+                    <div class="text-xs font-semibold">Referencia:</div>
+                    <div class="flex gap-4 mt-2">
+                        <div class="flex items-center gap-1">
+                            <input type="radio" id="referencia_no" name="referencia" value="no">
+                            <label for="referencia_no" class="text-xs">NO</label>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <input type="radio" id="referencia_si" name="referencia" value="si">
+                            <label for="referencia_si" class="text-xs">SI</label>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-xs">Lugar y motivo:</div>
+                        <input type="text" name="lugar_motivo_referencia" placeholder="Lugar y motivo de referencia">
+                    </div>
+                </div>
+                <div class="col-span-7 p-2">
+                    <div class="text-xs font-semibold">Fecha de Próxima Cita:</div>
+                    <div class="mt-1">
+                        <input type="date" name="fecha_proxima_cita">
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <div class="doctor-signature">
+                            <input type="text" name="nombre_doctor" placeholder="Nombre del médico">
+                            <div class="mt-1">
+                                <input type="text" name="especialidad" placeholder="Especialidad">
+                            </div>
+                            <div class="mt-1">
+                                <input type="text" name="cmp" placeholder="CMP">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Observations Section -->
+            <div class="p-2">
+                <div class="text-xs font-semibold">Observaciones:</div>
+                <textarea name="observaciones" placeholder="Observaciones adicionales"></textarea>
+            </div>
+        </div>
+
+        <!-- Empty Form (Hidden by default) -->
+        <div class="form-container" id="emptyForm" style="display: none;">
+            <!-- Same structure as above but with empty fields -->
+            <!-- Header -->
+            <div class="form-header">
+                <h1>Atención en Consulta Externa</h1>
+            </div>
+            
+            <!-- Content would be the same structure but with empty fields -->
+        </div>
+    </div>
+
+    <script>
+        // Toggle between filled and empty form
+        const toggleButton = document.getElementById('toggleForm');
+        const filledForm = document.getElementById('filledForm');
+        const emptyForm = document.getElementById('emptyForm');
+        
+        toggleButton.addEventListener('click', function() {
+            if (filledForm.style.display !== 'none') {
+                filledForm.style.display = 'none';
+                emptyForm.style.display = 'block';
+                toggleButton.textContent = 'Mostrar Formulario Lleno';
+            } else {
+                filledForm.style.display = 'block';
+                emptyForm.style.display = 'none';
+                toggleButton.textContent = 'Mostrar Formulario Vacío';
+            }
+        });
+        
+        // Calculate IMC automatically when weight and height are entered
+        document.addEventListener('DOMContentLoaded', function() {
+            const pesoInput = document.querySelector('input[name="peso"]');
+            const tallaInput = document.querySelector('input[name="talla"]');
+            const imcInput = document.querySelector('input[name="imc"]');
+            
+            function calculateIMC() {
+                if (pesoInput.value && tallaInput.value) {
+                    const peso = parseFloat(pesoInput.value);
+                    const talla = parseFloat(tallaInput.value) / 100; // Convert cm to m
+                    if (peso > 0 && talla > 0) {
+                        const imc = (peso / (talla * talla)).toFixed(1);
+                        imcInput.value = imc;
+                    }
+                }
+            }
+            
+            pesoInput.addEventListener('input', calculateIMC);
+            tallaInput.addEventListener('input', calculateIMC);
+        });
+        
+        // PDF Export functionality
+        document.getElementById('exportPDF').addEventListener('click', function() {
+            // Hide the buttons during PDF generation
+            const buttonGroup = document.querySelector('.button-group');
+            buttonGroup.style.display = 'none';
+            
+            // Get the current visible form
+            const formToExport = filledForm.style.display !== 'none' ? filledForm : emptyForm;
+            
+            // Configure PDF options - explicitly set to A4 size
+            const options = {
+                margin: [10, 10, 10, 10],
+                filename: 'formulario-consulta-medica.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            // Generate PDF
+            html2pdf().from(formToExport).set(options).save().then(function() {
+                // Show the buttons again after PDF is generated
+                buttonGroup.style.display = 'flex';
+            });
+        });
+        
+        // Clear Fields functionality
+        document.getElementById('clearFields').addEventListener('click', function() {
+            // Get the current visible form
+            const currentForm = filledForm.style.display !== 'none' ? filledForm : emptyForm;
+            
+            // Clear all input fields
+            const inputs = currentForm.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"]');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // Clear all textareas
+            const textareas = currentForm.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                textarea.value = '';
+            });
+            
+            // Reset all select elements
+            const selects = currentForm.querySelectorAll('select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+            });
+            
+            // Uncheck all checkboxes
+            const checkboxes = currentForm.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Uncheck all radio buttons
+            const radioButtons = currentForm.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Show confirmation message
+            alert('Todos los campos han sido limpiados');
+        });
+    </script>
+</body>
+</html>
