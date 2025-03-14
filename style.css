@@ -1,0 +1,424 @@
+/* Estilos generales y variables */
+:root {
+    --primary: #2c75ff;
+    --primary-light: #6ea8ff;
+    --primary-dark: #0055cc;
+    --secondary: #00c6bd;
+    --secondary-light: #65ffea;
+    --secondary-dark: #008b84;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #6c757d;
+    --border-radius: 8px;
+    --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    color: var(--dark);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Botones */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+.button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.button i {
+    font-size: 1.1rem;
+}
+
+.export-button {
+    background: var(--success);
+}
+
+.export-button:hover {
+    background: #218838;
+}
+
+.clear-button {
+    background: var(--danger);
+}
+
+.clear-button:hover {
+    background: #c82333;
+}
+
+/* Cabecera */
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(44, 117, 255, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(44, 117, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(44, 117, 255, 0);
+    }
+}
+
+.form-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.form-header i {
+    font-size: 2rem;
+}
+
+/* Tarjetas */
+.card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: white;
+}
+
+.card-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-header i {
+    font-size: 1.5rem;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(44, 117, 255, 0.25);
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Entradas con unidades */
+.input-with-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-unit input {
+    padding-right: 40px;
+}
+
+.input-with-unit .unit {
+    position: absolute;
+    right: 15px;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* Grids */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* Radio buttons */
+.radio-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    margin: 0;
+    position: relative;
+    transition: var(--transition);
+}
+
+.radio-group input[type="radio"]:checked {
+    background-color: var(--primary);
+}
+
+.radio-group input[type="radio"]:checked:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Tabla de diagnóstico */
+.diagnostico-table {
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 3fr;
+    background: #f5f7fa;
+    font-weight: 600;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 3fr;
+    border-top: 1px solid #ddd;
+}
+
+.table-cell {
+    padding: 15px;
+    border-right: 1px solid #ddd;
+}
+
+.table-cell:last-child {
+    border-right: none;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Salto de página para PDF */
+.page-break {
+    page-break-after: always;
+    height: 0;
+    margin: 0;
+    border: none;
+}
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .table-header, .table-row {
+        grid-template-columns: 2fr 1fr 1fr 2fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-header, .table-row {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .table-cell {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .table-cell:last-child {
+        border-bottom: none;
+    }
+    
+    .button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Animaciones */
+.form-container {
+    animation-duration: 0.8s;
+}
+
+input, select, textarea, button {
+    transition: all 0.3s ease;
+}
+
+input:hover, select:hover, textarea:hover {
+    border-color: var(--primary-light);
+}
+
+/* Efectos adicionales */
+.card-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 50%, var(--secondary-dark) 100%);
+}
+
+/* Estilos para cuando el formulario está en modo vista */
+#emptyForm input, #emptyForm select, #emptyForm textarea {
+    border-color: transparent;
+    background-color: #f8f9fa;
+    pointer-events: none;
+}
+
+#emptyForm .card {
+    border: 1px solid #eaeaea;
+    box-shadow: none;
+}
+
+#emptyForm .card:hover {
+    transform: none;
+    box-shadow: none;
+}

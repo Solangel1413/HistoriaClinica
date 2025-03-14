@@ -4,850 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Consulta Médica</title>
-    <!-- Add html2pdf.js library -->
+    <!-- Importar fuentes de Google -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Importar html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        :root {
-            --primary-color: #4f46e5;
-            --border-color: #1f2937;
-            --bg-gray: #f3f4f6;
-            --text-dark: #111827;
-            --text-light: #4b5563;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f9fafb;
-            color: var(--text-dark);
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1024px;
-            margin: 0 auto;
-            background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .form-container {
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-        
-        .form-header {
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            background-color: var(--bg-gray);
-        }
-        
-        .form-header h1 {
-            font-size: 1.25rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .grid {
-            display: grid;
-        }
-        
-        .grid-cols-12 {
-            grid-template-columns: repeat(12, 1fr);
-        }
-        
-        .grid-cols-6 {
-            grid-template-columns: repeat(6, 1fr);
-        }
-        
-        .grid-cols-3 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .col-span-8 {
-            grid-column: span 8;
-        }
-        
-        .col-span-7 {
-            grid-column: span 7;
-        }
-        
-        .col-span-5 {
-            grid-column: span 5;
-        }
-        
-        .col-span-4 {
-            grid-column: span 4;
-        }
-        
-        .col-span-3 {
-            grid-column: span 3;
-        }
-        
-        .col-span-2 {
-            grid-column: span 2;
-        }
-        
-        .col-span-1 {
-            grid-column: span 1;
-        }
-        
-        .border-b {
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .border-r {
-            border-right: 1px solid var(--border-color);
-        }
-        
-        .p-2 {
-            padding: 8px;
-        }
-        
-        .p-1 {
-            padding: 4px;
-        }
-        
-        .mt-1 {
-            margin-top: 4px;
-        }
-        
-        .mt-2 {
-            margin-top: 8px;
-        }
-        
-        .mt-4 {
-            margin-top: 16px;
-        }
-        
-        .gap-1 {
-            gap: 4px;
-        }
-        
-        .gap-2 {
-            gap: 8px;
-        }
-        
-        .gap-4 {
-            gap: 16px;
-        }
-        
-        .text-xs {
-            font-size: 0.75rem;
-        }
-        
-        .font-semibold {
-            font-weight: 600;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .text-right {
-            text-align: right;
-        }
-        
-        .flex {
-            display: flex;
-        }
-        
-        .items-center {
-            align-items: center;
-        }
-        
-        .justify-center {
-            justify-content: center;
-        }
-        
-        .justify-end {
-            justify-content: flex-end;
-        }
-        
-        .justify-between {
-            justify-content: space-between;
-        }
-        
-        .bg-gray-200 {
-            background-color: var(--bg-gray);
-        }
-        
-        input[type="text"], 
-        input[type="number"],
-        input[type="date"],
-        input[type="time"],
-        textarea, 
-        select {
-            width: 100%;
-            padding: 6px 8px;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            font-size: 0.875rem;
-        }
-        
-        input[type="text"]:focus, 
-        input[type="number"]:focus,
-        input[type="date"]:focus,
-        input[type="time"]:focus,
-        textarea:focus, 
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-        }
-        
-        .date-input {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .date-input input {
-            width: 40px;
-            text-align: center;
-        }
-        
-        .time-input {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .time-input input {
-            width: 40px;
-            text-align: center;
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        
-        .small-input {
-            width: 60px !important;
-        }
-        
-        .doctor-signature {
-            border-top: 1px solid var(--border-color);
-            padding-top: 4px;
-            font-size: 0.75rem;
-            font-style: italic;
-            text-align: right;
-        }
-        
-        .button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.875rem;
-            margin-bottom: 16px;
-            transition: background-color 0.2s;
-        }
-        
-        .button:hover {
-            background-color: #4338ca;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        
-        .export-button {
-            background-color: var(--success-color);
-        }
-        
-        .export-button:hover {
-            background-color: #059669;
-        }
-        
-        .clear-button {
-            background-color: var(--warning-color);
-        }
-        
-        .clear-button:hover {
-            background-color: #d97706;
-        }
-        
-        @media print {
-            body {
-                background-color: white;
-                padding: 0;
-            }
-            
-            .container {
-                box-shadow: none;
-                max-width: 100%;
-            }
-            
-            .button-group {
-                display: none;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <div class="button-group">
-            <button id="toggleForm" class="button">Mostrar Formulario Vacío</button>
-            <button id="exportPDF" class="button export-button">Exportar a PDF</button>
-            <button id="clearFields" class="button clear-button">Limpiar Campos</button>
-        </div>
-        
-        <!-- Form -->
-        <div class="form-container" id="filledForm">
-            <!-- Header -->
-            <div class="form-header">
-                <h1>Atención en Consulta Externa</h1>
-            </div>
+        <body>
+            <!-- Cabecera con logo y título -->
+            <div class="container">
+                <div class="button-group">
+                    <button id="toggleForm" class="button"><i class="fas fa-exchange-alt"></i> Cambiar Vista</button>
+                    <button id="exportPDF" class="button export-button"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+                    <button id="clearFields" class="button clear-button"><i class="fas fa-eraser"></i> Limpiar Campos</button>
+                    <script src="historia.js"></script>
+                </div>
+                
+                <!-- Formulario con campos completos -->
+                <div class="form-container animate__animated animate__fadeIn" id="filledForm">
+                    <!-- Encabezado -->
+                    <div class="form-header">
+                        <h1><i class="fas fa-stethoscope"></i> Atención en Consulta Externa</h1>
+                    </div>
+                    
+                    <!-- Información del paciente -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-user-circle"></i> Datos del Paciente</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label for="nombre_paciente">Nombres:</label>
+                                    <input type="text" id="nombre_paciente" name="nombre_paciente" placeholder="Nombres del paciente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidos_paciente">Apellidos:</label>
+                                    <input type="text" id="apellidos_paciente" name="apellidos_paciente" placeholder="Apellidos del paciente">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dni">DNI:</label>
+                                    <input type="text" id="dni" name="dni" placeholder="Número de DNI">
+                                </div>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edad">Edad:</label>
+                                    <input type="number" id="edad" name="edad" placeholder="Edad">
+                                </div>
+                                <div class="form-group">
+                                    <label for="genero">Género:</label>
+                                    <select id="genero" name="genero">
+                                        <option value="">Seleccione</option>
+                                        <option value="masculino">Masculino</option>
+                                        <option value="femenino">Femenino</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Detalles de la consulta -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-clipboard-list"></i> Detalles de la Consulta</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="fecha_atencion">Fecha de Atención:</label>
+                                    <input type="date" id="fecha_atencion" name="fecha_atencion" class="current-date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hora_atencion">Hora de Atención:</label>
+                                    <input type="time" id="hora_atencion" name="hora_atencion" class="current-time">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="motivo_consulta">Motivo de Consulta:</label>
+                                <textarea id="motivo_consulta" name="motivo_consulta" placeholder="Describa el motivo de la consulta"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="signos_sintomas">Signos y Síntomas:</label>
+                                <textarea id="signos_sintomas" name="signos_sintomas" placeholder="Detalle los signos y síntomas presentados"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="relato_cronologico">Relato Cronológico:</label>
+                                <textarea id="relato_cronologico" name="relato_cronologico" placeholder="Describa el relato cronológico de la enfermedad"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="tiempo_enfermedad">Tiempo de Enfermedad:</label>
+                                <textarea id="tiempo_enfermedad" name="tiempo_enfermedad" placeholder="Detalle el tiempo de evolución de la enfermedad"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Funciones biológicas -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-heartbeat"></i> Funciones Biológicas</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label for="apetito">Apetito:</label>
+                                    <select id="apetito" name="apetito">
+                                        <option value="">Seleccione</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="aumentado">Aumentado</option>
+                                        <option value="disminuido">Disminuido</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sed">Sed:</label>
+                                    <select id="sed" name="sed">
+                                        <option value="">Seleccione</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="aumentada">Aumentada</option>
+                                        <option value="disminuida">Disminuida</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sueno">Sueño:</label>
+                                    <select id="sueno" name="sueno">
+                                        <option value="">Seleccione</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="aumentado">Aumentado</option>
+                                        <option value="disminuido">Disminuido</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label for="orina">Orina:</label>
+                                    <select id="orina" name="orina">
+                                        <option value="">Seleccione</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="aumentada">Aumentada</option>
+                                        <option value="disminuida">Disminuida</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="deposiciones">Deposiciones:</label>
+                                    <select id="deposiciones" name="deposiciones">
+                                        <option value="">Seleccione</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="aumentadas">Aumentadas</option>
+                                        <option value="disminuidas">Disminuidas</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="page-break"></div>
 
-            <!-- Patient Info Section -->
-            <div class="grid grid-cols-12 border-b">
-                <div class="col-span-8 border-r">
-                    <div class="grid grid-cols-2 border-b">
-                        <div class="p-2 border-r">
-                            <div class="text-xs font-semibold">Fecha Atención:</div>
-                            <div class="mt-1">
-                                <input type="date" name="fecha_atencion">
+                    <!-- Factores de riesgo y antecedentes -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-exclamation-triangle"></i> Factores de Riesgo y Antecedentes</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="factor_riesgo">Factor de Riesgo Identificado:</label>
+                                <textarea id="factor_riesgo" name="factor_riesgo" placeholder="Detalle los factores de riesgo identificados"></textarea>
                             </div>
-                        </div>
-                        <div class="p-2">
-                            <div class="text-xs font-semibold">Hora de Atención:</div>
-                            <div class="mt-1">
-                                <input type="time" name="hora_atencion">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-2 border-b">
-                        <div class="text-xs font-semibold">Motivo de consulta:</div>
-                        <div class="mt-1">
-                            <input type="text" name="motivo_consulta" placeholder="Ingrese el motivo de consulta">
-                        </div>
-                    </div>
-                    <div class="p-2 border-b">
-                        <div class="text-xs font-semibold">Signos y Síntomas:</div>
-                        <div class="mt-1">
-                            <input type="text" name="signos_sintomas" placeholder="Ingrese signos y síntomas">
-                        </div>
-                    </div>
-                    <div class="p-2">
-                        <div class="text-xs font-semibold">Relato cronológico:</div>
-                        <div class="mt-1">
-                            <textarea name="relato_cronologico" placeholder="Ingrese el relato cronológico"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-span-4 grid grid-cols-6 text-center">
-                    <div class="col-span-1 p-1 border-r border-b">
-                        <div class="text-xs">Edad</div>
-                        <div>
-                            <input type="number" name="edad" class="small-input text-center">
-                        </div>
-                    </div>
-                    <div class="col-span-1 p-1 border-r border-b">
-                        <div class="text-xs">H</div>
-                        <div>
-                            <input type="number" name="h" class="small-input text-center">
-                        </div>
-                    </div>
-                    <div class="col-span-1 p-1 border-r border-b">
-                        <div class="text-xs">D</div>
-                        <div>
-                            <input type="number" name="d" class="small-input text-center">
-                        </div>
-                    </div>
-                    <div class="col-span-1 p-1 border-r border-b">
-                        <div class="text-xs">M</div>
-                        <div>
-                            <input type="number" name="m" class="small-input text-center">
-                        </div>
-                    </div>
-                    <div class="col-span-2 p-1 border-b">
-                        <div class="text-xs">A</div>
-                        <div>
-                            <input type="number" name="a" class="small-input text-center">
-                        </div>
-                    </div>
-                    <div class="col-span-6 p-1 text-xs">
-                        <div>Tiempo de Enfermedad:</div>
-                        <div>
-                            <input type="text" name="tiempo_enfermedad" placeholder="Tiempo de enfermedad">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Patient Personal Info -->
-            <div class="grid grid-cols-3 border-b">
-                <div class="p-2 border-r">
-                    <div class="text-xs font-semibold">Nombre del Paciente:</div>
-                    <div class="mt-1">
-                        <input type="text" name="nombre_paciente" placeholder="Nombre completo">
-                    </div>
-                </div>
-                <div class="p-2 border-r">
-                    <div class="text-xs font-semibold">DNI:</div>
-                    <div class="mt-1">
-                        <input type="text" name="dni" placeholder="Número de DNI">
-                    </div>
-                </div>
-                <div class="p-2">
-                    <div class="text-xs font-semibold">Fecha de Nacimiento:</div>
-                    <div class="mt-1">
-                        <input type="date" name="fecha_nacimiento">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vital Signs Section -->
-            <div class="grid grid-cols-3 border-b">
-                <div class="p-2 border-r">
-                    <div class="text-xs font-semibold">Apetito:</div>
-                    <div class="mt-1">
-                        <select name="apetito">
-                            <option value="">Seleccione</option>
-                            <option value="normal">Normal</option>
-                            <option value="aumentado">Aumentado</option>
-                            <option value="disminuido">Disminuido</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="p-2 border-r">
-                    <div class="text-xs font-semibold">Sed:</div>
-                    <div class="mt-1">
-                        <select name="sed">
-                            <option value="">Seleccione</option>
-                            <option value="normal">Normal</option>
-                            <option value="aumentado">Aumentada</option>
-                            <option value="disminuido">Disminuida</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="p-2">
-                    <div class="text-xs font-semibold">Sueño:</div>
-                    <div class="mt-1">
-                        <select name="sueno">
-                            <option value="">Seleccione</option>
-                            <option value="normal">Normal</option>
-                            <option value="aumentado">Aumentado</option>
-                            <option value="disminuido">Disminuido</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-3 border-b">
-                <div class="col-span-2 border-r">
-                    <div class="text-xs font-semibold p-2 bg-gray-200">FACTOR DE RIESGO IDENTIFICADO:</div>
-                    <div class="grid grid-cols-2 p-2">
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="fever" name="factor_riesgo[]" value="fiebre">
-                            <label for="fever" class="text-xs">Fiebre en los últimos 15 días</label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="lesion" name="factor_riesgo[]" value="lesion">
-                            <label for="lesion" class="text-xs">Lesión en Genitales</label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="cough" name="factor_riesgo[]" value="tos">
-                            <label for="cough" class="text-xs">Tos hace 15 días</label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="secretion" name="factor_riesgo[]" value="secrecion">
-                            <label for="secretion" class="text-xs">Secreción</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-2">
-                    <div class="text-xs font-semibold">FUR:</div>
-                    <div class="mt-1">
-                        <input type="date" name="fur">
-                    </div>
-                    <div class="mt-4 flex justify-center gap-4">
-                        <div class="flex items-center gap-1">
-                            <input type="radio" id="viajo_si" name="viajo" value="si">
-                            <label for="viajo_si" class="text-xs">Si</label>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <input type="radio" id="viajo_no" name="viajo" value="no">
-                            <label for="viajo_no" class="text-xs">No</label>
-                        </div>
-                        <div class="text-xs">Viajó en las últimas dos semanas</div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="text-xs">Lugar:</div>
-                        <input type="text" name="lugar_viaje" placeholder="Lugar de viaje">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Medical History Section -->
-            <div class="border-b p-2">
-                <div class="text-xs font-semibold">Otros antecedentes de Importancia:</div>
-                <div class="mt-1">
-                    <textarea name="antecedentes" placeholder="Antecedentes importantes"></textarea>
-                </div>
-                <div class="grid grid-cols-6 gap-2 mt-2">
-                    <div class="col-span-1">
-                        <div class="text-xs">T°:</div>
-                        <input type="text" name="temperatura" placeholder="°C">
-                    </div>
-                    <div class="col-span-1">
-                        <div class="text-xs">PA:</div>
-                        <input type="text" name="presion_arterial" placeholder="mmHg">
-                    </div>
-                    <div class="col-span-1">
-                        <div class="text-xs">FC:</div>
-                        <input type="text" name="frecuencia_cardiaca" placeholder="lpm">
-                    </div>
-                    <div class="col-span-1">
-                        <div class="text-xs">FR:</div>
-                        <input type="text" name="frecuencia_respiratoria" placeholder="rpm">
-                    </div>
-                    <div class="col-span-1">
-                        <div class="text-xs">Peso:</div>
-                        <input type="text" name="peso" placeholder="kg">
-                    </div>
-                    <div class="col-span-1">
-                        <div class="text-xs">Talla:</div>
-                        <input type="text" name="talla" placeholder="cm">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-4 mt-2">
-                    <div>
-                        <div class="text-xs">IMC:</div>
-                        <input type="text" name="imc" class="small-input" placeholder="kg/m²">
-                    </div>
-                    <div>
-                        <div class="text-xs">PAB:</div>
-                        <input type="text" name="pab" class="small-input" placeholder="cm">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Physical Exam Section -->
-            <div class="border-b">
-                <div class="bg-gray-200 p-1 border-b">
-                    <div class="text-xs font-semibold">EXAMEN FÍSICO</div>
-                </div>
-                <div class="p-2">
-                    <textarea name="examen_fisico" placeholder="Detalles del examen físico"></textarea>
-                </div>
-
-                <!-- Diagnosis Table -->
-                <div class="grid grid-cols-12 border-b border-t">
-                    <div class="col-span-3 p-2 border-r">
-                        <div class="text-xs font-semibold">DIAGNÓSTICO</div>
-                        <div class="mt-2">
-                            <input type="text" name="diagnostico_1" placeholder="Diagnóstico 1">
-                        </div>
-                        <div class="mt-1">
-                            <input type="text" name="diagnostico_2" placeholder="Diagnóstico 2">
-                        </div>
-                        <div class="mt-1">
-                            <input type="text" name="diagnostico_3" placeholder="Diagnóstico 3">
-                        </div>
-                    </div>
-                    <div class="col-span-2 border-r">
-                        <div class="text-center text-xs font-semibold p-1 border-b">Tipo de Dx</div>
-                        <div class="grid grid-cols-3 text-center border-b">
-                            <div class="p-1 border-r text-xs">P</div>
-                            <div class="p-1 border-r text-xs">D</div>
-                            <div class="p-1 text-xs">R</div>
-                        </div>
-                        <div class="grid grid-cols-3 text-center border-b">
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_1" value="P">
-                            </div>
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_1" value="D">
-                            </div>
-                            <div class="p-1">
-                                <input type="radio" name="tipo_dx_1" value="R">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-3 text-center border-b">
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_2" value="P">
-                            </div>
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_2" value="D">
-                            </div>
-                            <div class="p-1">
-                                <input type="radio" name="tipo_dx_2" value="R">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-3 text-center">
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_3" value="P">
-                            </div>
-                            <div class="p-1 border-r">
-                                <input type="radio" name="tipo_dx_3" value="D">
-                            </div>
-                            <div class="p-1">
-                                <input type="radio" name="tipo_dx_3" value="R">
+                            <div class="form-group">
+                                <label for="antecedentes">Antecedentes de Importancia:</label>
+                                <textarea id="antecedentes" name="antecedentes" placeholder="Detalle los antecedentes de importancia"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="col-span-2 border-r">
-                        <div class="text-center text-xs font-semibold p-1 border-b">CIE-10</div>
-                        <div class="p-1 border-b">
-                            <input type="text" name="cie10_1" placeholder="Código">
+                    <!-- Signos vitales y medidas antropométricas -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-thermometer-half"></i> Signos Vitales y Medidas Antropométricas</h2>
                         </div>
-                        <div class="p-1 border-b">
-                            <input type="text" name="cie10_2" placeholder="Código">
-                        </div>
-                        <div class="p-1">
-                            <input type="text" name="cie10_3" placeholder="Código">
-                        </div>
-                    </div>
-                    <div class="col-span-5">
-                        <div class="text-center text-xs font-semibold p-1 border-b">Tratamiento</div>
-                        <div class="p-2">
-                            <div class="mb-1">
-                                <input type="text" name="tratamiento_1" placeholder="Tratamiento 1">
+                        <div class="card-body">
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label for="temperatura">Temperatura (T°):</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="temperatura" name="temperatura" placeholder="36.5">
+                                        <span class="unit">°C</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="presion_arterial">Presión Arterial (PA):</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="presion_arterial" name="presion_arterial" placeholder="120/80">
+                                        <span class="unit">mmHg</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frecuencia_cardiaca">Frecuencia Cardiaca (FC):</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="frecuencia_cardiaca" name="frecuencia_cardiaca" placeholder="70">
+                                        <span class="unit">lpm</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="frecuencia_respiratoria">Frecuencia Respiratoria (FR):</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="frecuencia_respiratoria" name="frecuencia_respiratoria" placeholder="16">
+                                        <span class="unit">rpm</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-1">
-                                <input type="text" name="tratamiento_2" placeholder="Tratamiento 2">
-                            </div>
-                            <div>
-                                <input type="text" name="tratamiento_3" placeholder="Tratamiento 3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Treatment Section -->
-                <div class="grid grid-cols-12">
-                    <div class="col-span-9 p-2 border-r">
-                        <div class="mb-2">
-                            <div class="text-xs font-semibold">Medidas Higiénico - Dietéticas:</div>
-                            <div class="mt-1">
-                                <input type="text" name="medidas_dieteticas" placeholder="Medidas higiénico-dietéticas">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="text-xs font-semibold">Medidas Preventivas:</div>
-                            <div class="mt-1">
-                                <input type="text" name="medidas_preventivas" placeholder="Medidas preventivas">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-3 grid grid-cols-3 text-center">
-                        <div class="col-span-1 p-1 border-r text-xs">
-                            <div>Vía</div>
-                            <div class="mt-1">
-                                <select name="via">
-                                    <option value="">Seleccione</option>
-                                    <option value="oral">Oral</option>
-                                    <option value="intravenosa">Intravenosa</option>
-                                    <option value="intramuscular">Intramuscular</option>
-                                    <option value="subcutanea">Subcutánea</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-span-1 p-1 border-r text-xs">
-                            <div>Dosis</div>
-                            <div class="mt-1">
-                                <input type="text" name="dosis" placeholder="Dosis">
-                            </div>
-                        </div>
-                        <div class="col-span-1 p-1 text-xs">
-                            <div>Frecuencia</div>
-                            <div class="mt-1">
-                                <input type="text" name="frecuencia" placeholder="Frecuencia">
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label for="peso">Peso:</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="peso" name="peso" placeholder="70">
+                                        <span class="unit">kg</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="talla">Talla:</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="talla" name="talla" placeholder="170">
+                                        <span class="unit">cm</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="imc">IMC:</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="imc" name="imc" placeholder="24.2" readonly>
+                                        <span class="unit">kg/m²</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pab">PAB:</label>
+                                    <div class="input-with-unit">
+                                        <input type="text" id="pab" name="pab" placeholder="85">
+                                        <span class="unit">cm</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Auxiliary Exams Section -->
-            <div class="border-b p-2">
-                <div class="text-xs font-semibold">Exámenes Auxiliares</div>
-                <div class="mt-1">
-                    <input type="text" name="examenes_auxiliares" placeholder="Exámenes auxiliares">
-                </div>
-            </div>
-
-            <!-- Reference Section -->
-            <div class="grid grid-cols-12 border-b">
-                <div class="col-span-5 p-2 border-r">
-                    <div class="text-xs font-semibold">Referencia:</div>
-                    <div class="flex gap-4 mt-2">
-                        <div class="flex items-center gap-1">
-                            <input type="radio" id="referencia_no" name="referencia" value="no">
-                            <label for="referencia_no" class="text-xs">NO</label>
+                    <!-- Examen físico -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-search"></i> Examen Físico</h2>
                         </div>
-                        <div class="flex items-center gap-1">
-                            <input type="radio" id="referencia_si" name="referencia" value="si">
-                            <label for="referencia_si" class="text-xs">SI</label>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="text-xs">Lugar y motivo:</div>
-                        <input type="text" name="lugar_motivo_referencia" placeholder="Lugar y motivo de referencia">
-                    </div>
-                </div>
-                <div class="col-span-7 p-2">
-                    <div class="text-xs font-semibold">Fecha de Próxima Cita:</div>
-                    <div class="mt-1">
-                        <input type="date" name="fecha_proxima_cita">
-                    </div>
-                    <div class="flex justify-end mt-4">
-                        <div class="doctor-signature">
-                            <input type="text" name="nombre_doctor" placeholder="Nombre del médico">
-                            <div class="mt-1">
-                                <input type="text" name="especialidad" placeholder="Especialidad">
-                            </div>
-                            <div class="mt-1">
-                                <input type="text" name="cmp" placeholder="CMP">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="examen_fisico">Hallazgos del Examen Físico:</label>
+                                <textarea id="examen_fisico" name="examen_fisico" placeholder="Detalle los hallazgos del examen físico" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Observations Section -->
-            <div class="p-2">
-                <div class="text-xs font-semibold">Observaciones:</div>
-                <textarea name="observaciones" placeholder="Observaciones adicionales"></textarea>
-            </div>
-        </div>
-
-        <!-- Empty Form (Hidden by default) -->
-        <div class="form-container" id="emptyForm" style="display: none;">
-            <!-- Same structure as above but with empty fields -->
-            <!-- Header -->
-            <div class="form-header">
-                <h1>Atención en Consulta Externa</h1>
-            </div>
-            
-            <!-- Content would be the same structure but with empty fields -->
-        </div>
-    </div>
-
-    <script>
-        // Toggle between filled and empty form
-        const toggleButton = document.getElementById('toggleForm');
-        const filledForm = document.getElementById('filledForm');
-        const emptyForm = document.getElementById('emptyForm');
-        
-        toggleButton.addEventListener('click', function() {
-            if (filledForm.style.display !== 'none') {
-                filledForm.style.display = 'none';
-                emptyForm.style.display = 'block';
-                toggleButton.textContent = 'Mostrar Formulario Lleno';
-            } else {
-                filledForm.style.display = 'block';
-                emptyForm.style.display = 'none';
-                toggleButton.textContent = 'Mostrar Formulario Vacío';
-            }
-        });
-        
-        // Calculate IMC automatically when weight and height are entered
-        document.addEventListener('DOMContentLoaded', function() {
-            const pesoInput = document.querySelector('input[name="peso"]');
-            const tallaInput = document.querySelector('input[name="talla"]');
-            const imcInput = document.querySelector('input[name="imc"]');
-            
-            function calculateIMC() {
-                if (pesoInput.value && tallaInput.value) {
-                    const peso = parseFloat(pesoInput.value);
-                    const talla = parseFloat(tallaInput.value) / 100; // Convert cm to m
-                    if (peso > 0 && talla > 0) {
-                        const imc = (peso / (talla * talla)).toFixed(1);
-                        imcInput.value = imc;
-                    }
-                }
-            }
-            
-            pesoInput.addEventListener('input', calculateIMC);
-            tallaInput.addEventListener('input', calculateIMC);
-        });
-        
-        // PDF Export functionality
-        document.getElementById('exportPDF').addEventListener('click', function() {
-            // Hide the buttons during PDF generation
-            const buttonGroup = document.querySelector('.button-group');
-            buttonGroup.style.display = 'none';
-            
-            // Get the current visible form
-            const formToExport = filledForm.style.display !== 'none' ? filledForm : emptyForm;
-            
-            // Configure PDF options - explicitly set to A4 size
-            const options = {
-                margin: [10, 10, 10, 10],
-                filename: 'formulario-consulta-medica.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            // Generate PDF
-            html2pdf().from(formToExport).set(options).save().then(function() {
-                // Show the buttons again after PDF is generated
-                buttonGroup.style.display = 'flex';
-            });
-        });
-        
-        // Clear Fields functionality
-        document.getElementById('clearFields').addEventListener('click', function() {
-            // Get the current visible form
-            const currentForm = filledForm.style.display !== 'none' ? filledForm : emptyForm;
-            
-            // Clear all input fields
-            const inputs = currentForm.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], input[type="time"]');
-            inputs.forEach(input => {
-                input.value = '';
-            });
-            
-            // Clear all textareas
-            const textareas = currentForm.querySelectorAll('textarea');
-            textareas.forEach(textarea => {
-                textarea.value = '';
-            });
-            
-            // Reset all select elements
-            const selects = currentForm.querySelectorAll('select');
-            selects.forEach(select => {
-                select.selectedIndex = 0;
-            });
-            
-            // Uncheck all checkboxes
-            const checkboxes = currentForm.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = false;
-            });
-            
-            // Uncheck all radio buttons
-            const radioButtons = currentForm.querySelectorAll('input[type="radio"]');
-            radioButtons.forEach(radio => {
-                radio.checked = false;
-            });
-            
-            // Show confirmation message
-            alert('Todos los campos han sido limpiados');
-        });
-    </script>
-</body>
+                    <!-- Diagnóstico y tratamiento -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-stethoscope"></i> Diagnóstico y Tratamiento</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="diagnostico-table">
+                                <!-- Encabezados de la tabla -->
+                                <div class="table-header">
+                                    <div class="table-cell">Diagnóstico</div>
+                                    <div class="table-cell centered">Tipo de Dx</div>
+                                    <div class="table-cell centered">CIE-10</div>
+                                    <div class="table-cell">Tratamiento</div>
+                                </div>
+                                
+                                <!-- Fila 1 -->
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <input type="text" name="diagnostico_1" placeholder="Diagnóstico 1">
+                                    </div>
+                                    <div class="table-cell centered">
+                                        <div class="radio-group">
+                                            <label>
+                                                <input type="radio" name="tipo_dx_1" value="P">
+                                                <span>P</span>
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="tipo_dx_1" value="D">
+                                                <span>D</span>
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="tipo_dx_1" value="R">
+                                                <span>R</span>
+                                            </label>
+                                        </div>
+                                    </div>
+        </body>
 </html>
+
+<script>
+    // Verificar que html2pdf esté correctamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof html2pdf === 'undefined') {
+            console.error('Error: html2pdf no está cargado correctamente');
+            alert('Error: La biblioteca html2pdf no está cargada correctamente. Por favor, verifica tu conexión a internet.');
+        } else {
+            console.log('html2pdf cargado correctamente');
+        }
+    });
+</script>
+
+
+                                        
